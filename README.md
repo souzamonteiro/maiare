@@ -1,2 +1,2 @@
-# maiare
-MaiaScript Regular Expression Parser Generator
+# MaiaRE
+MaiaScript Regular Expression Parser Generator.
