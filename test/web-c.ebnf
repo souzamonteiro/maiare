@@ -40,7 +40,46 @@ AssignmentOperator       ::= '='
                            | '^='
                            | '|='
 
-Arguments ::= '(' (AssignmentExpression (',' AssignmentExpression)*)? ')'
-CallExpression ::= MemberExpression Arguments (Arguments | '[' Expression ']' | '.' IdentifierName)*
+Arguments             ::= '(' (AssignmentExpression (',' AssignmentExpression)*)? ')'
+CallExpression        ::= MemberExpression Arguments (Arguments | '[' Expression ']' | '.' IdentifierName)*
+MemberExpression      ::= (PrimaryExpression | FunctionExpression) ('[' Expression ']' | '.' IdentifierName)*
+PrimaryExpression     ::= Identifier
+                        | Literal
+                        | ArrayLiteral
+                        | '(' Expression ')'
+Literal               ::= NullLiteral
+                        | BooleanLiteral
+                        | NumericLiteral
+                        | StringLiteral
+BooleanLiteral        ::= 'true'
+                        | 'false'
+NumericLiteral        ::= DecimalLiteral
+                        | HexIntegerLiteral
+                        | OctalIntegerLiteral
+StringLiteral         ::= '"' DoubleStringCharacter* '"'
+                        | "'" SingleStringCharacter* "'"
+DoubleStringCharacter ::= . - ('"' | '\' | LineTerminator)
+                        | '\' EscapeSequence
+                        | LineContinuation
+SingleStringCharacter ::= . - ("'" | '\' | LineTerminator)
+                        | '\' EscapeSequence
+                        | LineContinuation
+LineTerminator        ::= #x000A
+                        | #x000D
+                        | #x2028
+                        | #x2029
+EscapeSequence        ::= CharacterEscapeSequence
+                        | OctalEscapeSequence
+                        | HexEscapeSequence
+                        | UnicodeEscapeSequence
+CharacterEscapeSequence ::= SingleEscapeCharacter
+                          | NonEscapeCharacter
+SingleEscapeCharacter   ::= ['"\bfnrtv]
+NonEscapeCharacter      ::= SourceCharacter - (EscapeCharacter | LineTerminator)
+EscapeCharacter         ::= SingleEscapeCharacter
+                          | DecimalDigit
+                          | 'x'
+                          | 'u'
+ArrayLiteral      ::= '[' AssignmentExpression? (',' AssignmentExpression?)* ']'
 
 Semicolon ::= ';'
