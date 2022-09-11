@@ -1,0 +1,46 @@
+Program ::= Statement* EOF
+
+Statement ::= ExpressionStatement
+
+ExpressionStatement ::= Expression Semicolon
+Expression ::= AssignmentExpression (',' AssignmentExpression)*
+
+AssignmentExpression     ::= LeftHandSideExpression AssignmentOperator AssignmentExpression
+                           | ConditionalExpression
+ConditionalExpression    ::= LogicalORExpression ('?' AssignmentExpression ':' AssignmentExpression)?
+LogicalORExpression      ::= LogicalANDExpression ('||' LogicalANDExpression)*
+LogicalANDExpression     ::= BitwiseORExpression ('&&' BitwiseORExpression)*
+BitwiseORExpression      ::= BitwiseXORExpression ('|' BitwiseXORExpression)*
+BitwiseXORExpression     ::= BitwiseANDExpression ('^' BitwiseANDExpression)*
+BitwiseANDExpression     ::= EqualityExpression ('&' EqualityExpression)*
+EqualityExpression       ::= RelationalExpression (('==' | '!=') RelationalExpression)*
+RelationalExpression     ::= ShiftExpression ('<' | '>' | '<=' | '>=') ShiftExpression*
+ShiftExpression          ::= AdditiveExpression (('<<' | '>>') AdditiveExpression)*
+AdditiveExpression       ::= MultiplicativeExpression (('+' | '-') MultiplicativeExpression)*
+MultiplicativeExpression ::= UnaryExpression (('*' | '/' | '%') UnaryExpression)*
+UnaryExpression          ::= PostfixExpression
+                           | 'sizeof' UnaryExpression
+                           | '++' UnaryExpression
+                           | '--' UnaryExpression
+                           | '+' UnaryExpression
+                           | '-' UnaryExpression
+                           | '~' UnaryExpression
+                           | '!' UnaryExpression
+PostfixExpression        ::= LeftHandSideExpression ('++' | '--')?
+LeftHandSideExpression   ::= CallExpression
+AssignmentOperator       ::= '='
+                           | '*='
+                           | '/='
+                           | '%='
+                           | '+='
+                           | '-='
+                           | '<<='
+                           | '>>='
+                           | '&='
+                           | '^='
+                           | '|='
+
+Arguments ::= '(' (AssignmentExpression (',' AssignmentExpression)*)? ')'
+CallExpression ::= MemberExpression Arguments (Arguments | '[' Expression ']' | '.' IdentifierName)*
+
+Semicolon ::= ';'
