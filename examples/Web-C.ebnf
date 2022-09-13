@@ -5,6 +5,7 @@ Expression               ::= Comment
                            | Block
                            | Operation
                            | Statement
+                           | PreprocessorDirective
 
 Block                    ::= '{' Expression* '}'
 
@@ -35,41 +36,40 @@ Primary                  ::= Member
                            | Value
                            | ParenthesizedExpression
 
-Statement                ::= Break
-                           | Continue
-                           | Do
-                           | Enum
+Statement                ::= Do
+                           | While
                            | For
-                           | EmptyStatement
+                           | Break
+                           | Continue
                            | If
-                           | Return
-                           | Struct
                            | Switch
+                           | Enum
                            | Typedef
+                           | Struct
                            | Union
                            | FunctionDeclaration
+                           | Return
                            | VariableDeclaration
-                           | While
-
+                           | EmptyStatement
+                           
+Do                       ::= 'do' Expression 'while' '(' Expression ')'
+While                    ::= 'while' '(' Expression ')' Expression
+For                      ::= 'for' '(' Expression ';' Expression ';' Expression ')' Expression
 Break                    ::= 'break'
+Continue                 ::= 'continue'
+If                       ::= 'if' '(' Expression ')' Expression Else?
+Else                     ::= 'else' Expression
+Switch                   ::= 'switch' '(' Expression ')' '{' Case+ Default? '}'
 Case                     ::= 'case' Expression ':' Expression*
 Default                  ::= 'default' ':' Expression*
-Continue                 ::= 'continue'
-Do                       ::= 'do' Expression 'while' '(' Expression ')'
-Else                     ::= 'else' Expression
 Enum                     ::= 'enum' Array
-For                      ::= 'for' '(' Expression ';' Expression ';' Expression ')' Expression
-If                       ::= 'if' '(' Expression ')' Expression Else?
-Return                   ::= 'return' Expression
-Struct                   ::= 'struct' Expression
-Switch                   ::= 'switch' '(' Expression ')' '{' Case+ Default? '}'
 Typedef                  ::= 'typedef' Expression Identifier
+Struct                   ::= 'struct' Expression
 Union                    ::= 'union' '{' Expression* '}'
-While                    ::= 'while' '(' Expression ')' Expression
-
 FunctionDeclaration      ::= Type? Identifier '(' (Arguments | 'void')? ')' '{' Expression* '}'
-EmptyStatement           ::= ';'
+Return                   ::= 'return' Expression
 VariableDeclaration      ::= Qualifier* Type ('*')* Expression
+EmptyStatement           ::= ';'
 
 Qualifier                ::= 'auto'
                            | 'const'
@@ -114,6 +114,24 @@ Value                    ::= Array
                            | Real
                            | String
                            | True
+
+PreprocessorDirective    ::= DefineDirective
+                           | UndefDirective
+                           | IfDirectiveStatement
+                           | IncludeDirective
+                           
+DefineDirective          ::= '#define' Identifier Expression
+                           | '#define' Identifier '(' Arguments? ')' Expression
+UndefDirective           ::= '#undef' Identifier
+IfDirectiveStatement     ::= (IfDirective | IfdefDirective | IfndefDirective) ElifDirective* ElseDirective? EndifDirective
+IfDirective              ::= '#if' Expression*
+IfdefDirective           ::= '#ifdef' Identifier Expression*
+IfndefDirective          ::= '#ifndef' Identifier Expression*
+ElifDirective            ::= '#elif' Expression Expression*
+ElseDirective            ::= '#else' Expression*
+EndifDirective           ::= '#endif'
+IncludeDirective         ::= '#include' String
+                           | '#include' '<' Expression '>'
                            
 WhiteSpace               ::= WhiteSpace^token
                           /* ws: definition */
@@ -217,7 +235,6 @@ Digit                    ::= [0-9]
 Comment                  ::= SingleLineComment
 
 SingleLineComment        ::= '//' (SourceCharacter - LineTerminator)*
-                           | '#'  (SourceCharacter - LineTerminator)*
 
 SourceCharacter          ::= .
 
