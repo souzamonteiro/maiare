@@ -1,5 +1,5 @@
-int a = 1;
-int b = 2;
+short int a = 1;
+long int b = 2;
 float c = a + b
 double c = a - b
 c = a * b
@@ -22,6 +22,7 @@ a[1][2] = {3, 4}
 b[1, 2] = {3, 4}
 e = "Hello World!"
 f = "Amélia tinha uma maçã. Que fruta você tem?"
-char g = '\xFF'
+unsigned char g = '\xFF'
 h = a > 1 ? b + 2 : c - 1
+unsigned long int i = 0;
 // A comment.

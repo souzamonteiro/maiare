@@ -3,6 +3,9 @@
     <Expression>
         <Statement>
             <VariableDeclaration>
+                <Qualifier>
+                    <TOKEN>short</TOKEN>
+                </Qualifier>
                 <Type>
                     <TOKEN>int</TOKEN>
                 </Type>
@@ -88,6 +91,9 @@
     <Expression>
         <Statement>
             <VariableDeclaration>
+                <Qualifier>
+                    <TOKEN>long</TOKEN>
+                </Qualifier>
                 <Type>
                     <TOKEN>int</TOKEN>
                 </Type>
@@ -1952,6 +1958,9 @@
     <Expression>
         <Statement>
             <VariableDeclaration>
+                <Qualifier>
+                    <TOKEN>unsigned</TOKEN>
+                </Qualifier>
                 <Type>
                     <TOKEN>char</TOKEN>
                 </Type>
@@ -2203,6 +2212,97 @@
                 </ConditionalExpression>
             </VariableAssignment>
         </Operation>
+    </Expression>
+    <Expression>
+        <Statement>
+            <VariableDeclaration>
+                <Qualifier>
+                    <TOKEN>unsigned</TOKEN>
+                </Qualifier>
+                <Qualifier>
+                    <TOKEN>long</TOKEN>
+                </Qualifier>
+                <Type>
+                    <TOKEN>int</TOKEN>
+                </Type>
+                <Expression>
+                    <Operation>
+                        <VariableAssignment>
+                            <ConditionalExpression>
+                                <LogicalORExpression>
+                                    <LogicalANDExpression>
+                                        <BitwiseORExpression>
+                                            <BitwiseXORExpression>
+                                                <BitwiseANDExpression>
+                                                    <EqualityExpression>
+                                                        <RelationalExpression>
+                                                            <ShiftExpression>
+                                                                <AdditiveExpression>
+                                                                    <MultiplicativeExpression>
+                                                                        <PowerExpression>
+                                                                            <UnaryExpression>
+                                                                                <Primary>
+                                                                                    <Member>
+                                                                                        <Identifier>i</Identifier>
+                                                                                    </Member>
+                                                                                </Primary>
+                                                                            </UnaryExpression>
+                                                                        </PowerExpression>
+                                                                    </MultiplicativeExpression>
+                                                                </AdditiveExpression>
+                                                            </ShiftExpression>
+                                                        </RelationalExpression>
+                                                    </EqualityExpression>
+                                                </BitwiseANDExpression>
+                                            </BitwiseXORExpression>
+                                        </BitwiseORExpression>
+                                    </LogicalANDExpression>
+                                </LogicalORExpression>
+                            </ConditionalExpression>
+                            <TOKEN>=</TOKEN>
+                            <ConditionalExpression>
+                                <LogicalORExpression>
+                                    <LogicalANDExpression>
+                                        <BitwiseORExpression>
+                                            <BitwiseXORExpression>
+                                                <BitwiseANDExpression>
+                                                    <EqualityExpression>
+                                                        <RelationalExpression>
+                                                            <ShiftExpression>
+                                                                <AdditiveExpression>
+                                                                    <MultiplicativeExpression>
+                                                                        <PowerExpression>
+                                                                            <UnaryExpression>
+                                                                                <Primary>
+                                                                                    <Value>
+                                                                                        <Real>0</Real>
+                                                                                    </Value>
+                                                                                </Primary>
+                                                                            </UnaryExpression>
+                                                                        </PowerExpression>
+                                                                    </MultiplicativeExpression>
+                                                                </AdditiveExpression>
+                                                            </ShiftExpression>
+                                                        </RelationalExpression>
+                                                    </EqualityExpression>
+                                                </BitwiseANDExpression>
+                                            </BitwiseXORExpression>
+                                        </BitwiseORExpression>
+                                    </LogicalANDExpression>
+                                </LogicalORExpression>
+                            </ConditionalExpression>
+                        </VariableAssignment>
+                    </Operation>
+                </Expression>
+            </VariableDeclaration>
+        </Statement>
+    </Expression>
+    <Expression>
+        <Statement>
+            <EmptyStatement>
+                <TOKEN>;</TOKEN>
+            </EmptyStatement>
+        </Statement>
     </Expression>
     <Expression>
         <Comment>// A comment.</Comment>

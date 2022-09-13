@@ -1,5 +1,12 @@
-Program               ::= Expression*
-                        | EOF
+Program                  ::= Expression*
+                           | EOF
+
+Expression               ::= Comment
+                           | Block
+                           | Operation
+                           | Statement
+
+Block                    ::= '{' Expression* '}'
 
 Operation                ::= VariableAssignment
 VariableAssignment       ::= ConditionalExpression (('=' | '*=' | '/=' | '%=' | '+=' | '-=' | '<<=' | '>>=' | '&=' | '^=' | '|=') ConditionalExpression)*
@@ -15,7 +22,8 @@ ShiftExpression          ::= AdditiveExpression (('<<' | '>>') AdditiveExpressio
 AdditiveExpression       ::= MultiplicativeExpression (('+' | '-') MultiplicativeExpression)*
 MultiplicativeExpression ::= PowerExpression (('*' | '/' | '%') PowerExpression)*
 PowerExpression          ::= UnaryExpression ('^' UnaryExpression)*
-UnaryExpression          ::= '~' Primary
+UnaryExpression          ::= 'sizeof' Primary
+                           | '~' Primary
                            | '!' Primary
                            | '++' Primary
                            | '--' Primary
@@ -27,21 +35,59 @@ Primary                  ::= Member
                            | Value
                            | ParenthesizedExpression
 
-Expression               ::= Operation
-                           | Comment
-                           | Statement
-
-Statement                ::= VariableDeclaration
+Statement                ::= Break
+                           | Continue
+                           | Do
+                           | Enum
+                           | For
                            | EmptyStatement
+                           | If
+                           | Return
+                           | Struct
+                           | Switch
+                           | Typedef
+                           | Union
+                           | FunctionDeclaration
+                           | VariableDeclaration
+                           | While
 
-VariableDeclaration      ::= Type Expression
+Break                    ::= 'break'
+Case                     ::= 'case' Expression ':' Expression*
+Default                  ::= 'default' ':' Expression*
+Continue                 ::= 'continue'
+Do                       ::= 'do' Expression 'while' '(' Expression ')'
+Else                     ::= 'else' Expression
+Enum                     ::= 'enum' Array
+For                      ::= 'for' '(' Expression ';' Expression ';' Expression ')' Expression
+If                       ::= 'if' '(' Expression ')' Expression Else?
+Return                   ::= 'return' Expression
+Struct                   ::= 'struct' Expression
+Switch                   ::= 'switch' '(' Expression ')' '{' Case+ Default? '}'
+Typedef                  ::= 'typedef' Expression Identifier
+Union                    ::= 'union' '{' Expression* '}'
+While                    ::= 'while' '(' Expression ')' Expression
+
+FunctionDeclaration      ::= Type? Identifier '(' (Arguments | 'void')? ')' '{' Expression* '}'
 EmptyStatement           ::= ';'
+VariableDeclaration      ::= Qualifier* Type ('*')* Expression
 
+Qualifier                ::= 'auto'
+                           | 'const'
+                           | 'extern'
+                           | 'long'
+                           | 'short'
+                           | 'signed'
+                           | 'static'
+                           | 'unsigned'
+                           | 'volatile'
+                           
 Type                     ::= 'char'
+                           | 'double'
+                           | 'float'
                            | 'int'
                            | 'long'
-                           | 'float'
-                           | 'double'
+                           | 'short'
+                           | 'void'
                            
 Arguments                ::= Expression (',' Expression)*
 
@@ -60,14 +106,14 @@ Column                   ::= Expression
 
 ParenthesizedExpression  ::= '(' Expression ')'
 
-Value                    ::= Real
+Value                    ::= Array
                            | Character
-                           | String
-                           | Array
+                           | False
                            | Matrix
                            | Null
+                           | Real
+                           | String
                            | True
-                           | False
                            
 WhiteSpace               ::= WhiteSpace^token
                           /* ws: definition */
@@ -93,12 +139,10 @@ ReservedWord             ::= 'auto'
                            | 'false'
                            | 'float'
                            | 'for'
-                           | 'goto'
                            | 'if'
                            | 'int'
                            | 'long'
                            | 'null'
-                           | 'register'
                            | 'return'
                            | 'short'
                            | 'signed'

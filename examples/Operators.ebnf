@@ -1,6 +1,10 @@
-Program               ::= Expression*
-                        | EOF
+Program                  ::= Expression*
+                           | EOF
 
+Expression               ::= Operation
+                           | Comment
+                           | Statement
+                           
 Operation                ::= VariableAssignment
 VariableAssignment       ::= ConditionalExpression (('=' | '*=' | '/=' | '%=' | '+=' | '-=' | '<<=' | '>>=' | '&=' | '^=' | '|=') ConditionalExpression)*
 ConditionalExpression    ::= LogicalORExpression ('?' VariableAssignment ':' VariableAssignment)?
@@ -27,21 +31,30 @@ Primary                  ::= Member
                            | Value
                            | ParenthesizedExpression
 
-Expression               ::= Operation
-                           | Comment
-                           | Statement
-
 Statement                ::= VariableDeclaration
                            | EmptyStatement
 
-VariableDeclaration      ::= Type Expression
+VariableDeclaration      ::= Qualifier* Type Expression
 EmptyStatement           ::= ';'
 
+Qualifier                ::= 'auto'
+                           | 'const'
+                           | 'extern'
+                           | 'long'
+                           | 'register'
+                           | 'short'
+                           | 'signed'
+                           | 'static'
+                           | 'unsigned'
+                           | 'volatile'
+                           
 Type                     ::= 'char'
+                           | 'double'
+                           | 'float'
                            | 'int'
                            | 'long'
-                           | 'float'
-                           | 'double'
+                           | 'short'
+                           | 'void'
                            
 Arguments                ::= Expression (',' Expression)*
 
@@ -60,14 +73,14 @@ Column                   ::= Expression
 
 ParenthesizedExpression  ::= '(' Expression ')'
 
-Value                    ::= Real
+Value                    ::= Array
                            | Character
-                           | String
-                           | Array
+                           | False
                            | Matrix
                            | Null
+                           | Real
+                           | String
                            | True
-                           | False
                            
 WhiteSpace               ::= WhiteSpace^token
                           /* ws: definition */
