@@ -1,10 +1,20 @@
+void hello(void) {
+    printf("Hello World!\n");
+}
 
 void showMessage(char *msg) {
     printf("%s", msg);
 }
 
-int power(int x) {
-    return x * x;
+float power(float x, int n) {
+    float p = 1;
+    int i;
+
+    for (i = 1; i <= n; i++) {
+        p *= x;
+    }
+
+    return p;
 }
 
 f(x) = 2 * x + 1;

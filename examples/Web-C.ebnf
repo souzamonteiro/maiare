@@ -6,6 +6,7 @@ Expression               ::= Comment
                            | Operation
                            | Statement
                            | PreprocessorDirective
+                           | 'void'
 
 Block                    ::= '{' Expression* '}'
 
@@ -48,8 +49,8 @@ Statement                ::= Do
                            | Struct
                            | Union
                            | FunctionDeclaration
-                           | Return
                            | VariableDeclaration
+                           | Return
                            | EmptyStatement
                            
 Do                       ::= 'do' Expression 'while' '(' Expression ')'
@@ -66,9 +67,9 @@ Enum                     ::= 'enum' Array
 Typedef                  ::= 'typedef' Expression Identifier
 Struct                   ::= 'struct' Expression
 Union                    ::= 'union' '{' Expression* '}'
-FunctionDeclaration      ::= Type? Identifier '(' (Arguments | 'void')? ')' '{' Expression* '}'
-Return                   ::= 'return' Expression
+FunctionDeclaration      ::= Type Identifier '(' Arguments ')' Block
 VariableDeclaration      ::= Qualifier* Type ('*')* Expression
+Return                   ::= 'return' Expression
 EmptyStatement           ::= ';'
 
 Qualifier                ::= 'auto'
@@ -91,8 +92,8 @@ Type                     ::= 'char'
                            
 Arguments                ::= Expression (',' Expression)*
 
-Member                   ::= Identifier (('.' | '->') Identifier)* '(' Arguments* ')'
-                           | Identifier (('.' | '->') Identifier)* ('[' Arguments ']')*
+Member                   ::= Identifier (('.' | '->') Identifier)* '(' Arguments? ')'
+                           | Identifier (('.' | '->') Identifier)* ('[' Arguments? ']')*
 
 Array                    ::= '{' Element (',' Element)* '}'
 Matrix                   ::= '[' Row? (';' Row)* ']'
