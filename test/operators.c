@@ -17,12 +17,19 @@ a++
 b--
 ++a
 --b
-a = [1, 2, 3]
-a[1][2] = {3, 4}
-b[1, 2] = {3, 4}
-e = "Hello World!"
-f = "Amélia tinha uma maçã. Que fruta você tem?"
-unsigned char g = '\xFF'
-h = a > 1 ? b + 2 : c - 1
-unsigned long int i = 0;
+e = [1, 2, 3]
+int f[1][2] = {{3, 4}}
+f[0, 0] = 5
+f[0][1] = 6
+
+g = "Hello World!";
+h = "Amélia tinha uma maçã. Que fruta você tem?";
+unsigned char i = '\xFF'
+j = a > 1 ? b + 2 : c - 1
+unsigned long int k = 0;
+char l[255];
+int m[5][5];
+
+long int *p = &b;
+(*p)++;
 // A comment.

@@ -1,0 +1,39 @@
+{
+  "name": "maiare",
+  "version": "1.0.0",
+  "description": "Compiler generator for grammars described in W3 EBNF.",
+  "main": "maiare.js",
+  "directories": {
+    "doc": "docs",
+    "example": "examples",
+    "test": "test"
+  },
+  "dependencies": {
+    "cross-blob": "^2.0.0",
+    "glob": "^7.1.6",
+    "jsdoc": "^3.6.5",
+    "jsdom": "^16.7.0",
+    "maiascript-cli": "^3.8.7",
+    "readline": "^1.3.0",
+    "web-worker": "^1.0.0"
+  },
+  "scripts": {
+    "test": "./test.sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/souzamonteiro/maiare.git"
+  },
+  "keywords": [
+    "ebnf",
+    "grammar",
+    "programming",
+    "language"
+  ],
+  "author": "Roberto Luiz Souza Monteiro",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/souzamonteiro/maiare/issues"
+  },
+  "homepage": "https://github.com/souzamonteiro/maiare#readme"
+}
