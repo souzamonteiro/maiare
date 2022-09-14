@@ -1,61 +1,40 @@
 Grammar  ::= Prolog SyntaxDefinition LexicalDefinition? Encore? EOF
-Prolog   ::= ProcessingInstruction*
-ProcessingInstruction
-         ::= '<?' Name ( Space+ DirPIContents? )? '?>'
+Prolog             ::= ProcessingInstruction*
+ProcessingInstruction  ::= '<?' Name ( Space+ DirPIContents? )? '?>'
           /* ws: explicit */
-SyntaxDefinition
-         ::= SyntaxProduction+
-SyntaxProduction
-         ::= Name '::=' SyntaxChoice Option*
-SyntaxChoice
-         ::= SyntaxSequence ( ( '|' SyntaxSequence )+ | ( '/' SyntaxSequence )+ )?
-SyntaxSequence
-         ::= SyntaxItem*
-SyntaxItem
-         ::= SyntaxPrimary ( '?' | '*' | '+' )?
-SyntaxPrimary
-         ::= NameOrString
+SyntaxDefinition  ::= SyntaxProduction+
+SyntaxProduction  ::= Name '::=' SyntaxChoice Option*
+SyntaxChoice  ::= SyntaxSequence ( ( '|' SyntaxSequence )+ | ( '/' SyntaxSequence )+ )?
+SyntaxSequence  ::= SyntaxItem*
+SyntaxItem  ::= SyntaxPrimary ( '?' | '*' | '+' )?
+SyntaxPrimary  ::= NameOrString
            | '(' SyntaxChoice ')'
            | ProcessingInstruction
-LexicalDefinition
-         ::= '<?TOKENS?>' ( LexicalProduction | Preference | Delimiter | Equivalence )*
-LexicalProduction
-         ::= ( Name | '.' ) '?'? '::=' ContextChoice Option*
-ContextChoice
-         ::= ContextExpression ( '|' ContextExpression )*
-LexicalChoice
-         ::= LexicalSequence ( '|' LexicalSequence )*
-ContextExpression
-         ::= LexicalSequence ( '&' LexicalItem )?
-LexicalSequence
-         ::=
+LexicalDefinition  ::= '<?TOKENS?>' ( LexicalProduction | Preference | Delimiter | Equivalence )*
+LexicalProduction  ::= ( Name | '.' ) '?'? '::=' ContextChoice Option*
+ContextChoice  ::= ContextExpression ( '|' ContextExpression )*
+LexicalChoice  ::= LexicalSequence ( '|' LexicalSequence )*
+ContextExpression  ::= LexicalSequence ( '&' LexicalItem )?
+LexicalSequence  ::=
            | LexicalItem ( '-' LexicalItem | LexicalItem* )
-LexicalItem
-         ::= LexicalPrimary ( '?' | '*' | '+' )?
-LexicalPrimary
-         ::= ( Name | '.' )
+LexicalItem  ::= LexicalPrimary ( '?' | '*' | '+' )?
+LexicalPrimary  ::= ( Name | '.' )
            | StringLiteral
            | '(' LexicalChoice ')'
            | '$'
            | CharCode
            | CharClass
-NameOrString
-         ::= Name Context?
+NameOrString  ::= Name Context?
            | StringLiteral Context?
 Context  ::= CaretName
-CharClass
-         ::= ( '[' | '[^' ) ( Char | CharCode | CharRange | CharCodeRange )+ ']'
+CharClass  ::= ( '[' | '[^' ) ( Char | CharCode | CharRange | CharCodeRange )+ ']'
           /* ws: explicit */
 Option   ::= '/*' Space* 'ws' ':' Space* ( 'explicit' | 'definition' ) Space* '*/'
           /* ws: explicit */
-Preference
-         ::= NameOrString ( '>>' NameOrString+ | '<<' NameOrString+ )
-Delimiter
-         ::= Name '\\' NameOrString+
-Equivalence
-         ::= EquivalenceLookAhead EquivalenceCharRange '==' EquivalenceCharRange
-EquivalenceCharRange
-         ::= StringLiteral
+Preference  ::= NameOrString ( '>>' NameOrString+ | '<<' NameOrString+ )
+Delimiter  ::= Name '\\' NameOrString+
+Equivalence  ::= EquivalenceLookAhead EquivalenceCharRange '==' EquivalenceCharRange
+EquivalenceCharRange  ::= StringLiteral
            | '[' ( Char | CharCode | CharRange | CharCodeRange ) ']'
           /* ws: explicit */
 Encore   ::= '<?ENCORE?>' ProcessingInstruction*
@@ -63,10 +42,8 @@ Encore   ::= '<?ENCORE?>' ProcessingInstruction*
 <?TOKENS?>
 
 Name     ::= NCNameStartChar NCNameChar*
-NCNameChar
-         ::= NameChar - ':'
-NCNameStartChar
-         ::= Letter
+NCNameChar  ::= NameChar - ':'
+NCNameStartChar  ::= Letter
            | '_'
 NameChar ::= Letter
            | Digit
@@ -280,12 +257,10 @@ BaseChar ::= [#x0041-#x005A]
            | [#x30A1-#x30FA]
            | [#x3105-#x312C]
            | [#xAC00-#xD7A3]
-Ideographic
-         ::= [#x4E00-#x9FA5]
+Ideographic  ::= [#x4E00-#x9FA5]
            | #x3007
            | [#x3021-#x3029]
-CombiningChar
-         ::= [#x0300-#x0345]
+CombiningChar  ::= [#x0300-#x0345]
            | [#x0360-#x0361]
            | [#x0483-#x0486]
            | [#x0591-#x05A1]
@@ -408,27 +383,18 @@ Extender ::= #x00B7
            | [#x30FC-#x30FE]
 Space    ::= ( #x0009 | #x000D | #x0020 )+
            | #x000A
-DirPIContents
-         ::= ( [^?#x0009#x000D#x0020#x000A] | '?'+ [^?>] ) ( [^?] | '?'+ [^?>] )* '?'* &'?>'
-StringLiteral
-         ::= '"' [^"#x0009#x000A#x000D]* '"'
+DirPIContents  ::= ( [^?#x0009#x000D#x0020#x000A] | '?'+ [^?>] ) ( [^?] | '?'+ [^?>] )* '?'* &'?>'
+StringLiteral  ::= '"' [^"#x0009#x000A#x000D]* '"'
            | "'" [^'#x0009#x000A#x000D]* "'"
-CaretName
-         ::= '^' Name?
+CaretName  ::= '^' Name?
 CharCode ::= '#x' [0-9a-fA-F]+
 Char     ::= [^#x0009#x000A#x000D#x0023#x005D]
            | '#' &[^0-9a-fA-F]
-CharRange
-         ::= Char '-' Char
-CharCodeRange
-         ::= CharCode '-' CharCode
-SingleLineComment
-         ::= '//' [^#x000A]* #x000A?
-MultiLineComment
-         ::= '/*' ( ( .* - ( .* '*/' .* ) ) - ( Space* 'ws' Space* ':' .* ) ) '*/'
+CharRange  ::= Char '-' Char
+CharCodeRange  ::= CharCode '-' CharCode
+SingleLineComment  ::= '//' [^#x000A]* #x000A?
+MultiLineComment  ::= '/*' ( ( .* - ( .* '*/' .* ) ) - ( Space* 'ws' Space* ':' .* ) ) '*/'
 EOF      ::= $
-EquivalenceLookAhead
-         ::= &( '[' ( Char | CharCode | CharRange | CharCodeRange ) ']' Whitespace? '==' )
-Whitespace
-         ::= ( Space | SingleLineComment | MultiLineComment )+
-          /* ws: definition */
+EquivalenceLookAhead ::= &( '[' ( Char | CharCode | CharRange | CharCodeRange ) ']' Whitespace? '==' )
+Whitespace           ::= ( Space | SingleLineComment | MultiLineComment )+
+/* ws: definition */

@@ -1917,7 +1917,7 @@
          <xhtml:ul>
             <xhtml:li><xhtml:a href="#Statement" title="Statement">Statement</xhtml:a></xhtml:li>
          </xhtml:ul>
-      </xhtml:p><xhtml:br xmlns:xhtml="http://www.w3.org/1999/xhtml" /><xhtml:p xmlns:xhtml="http://www.w3.org/1999/xhtml" style="font-size: 14px; font-weight:bold"><xhtml:a name="Struct">Struct:</xhtml:a></xhtml:p><svg xmlns="http://www.w3.org/2000/svg" width="227" height="37">
+      </xhtml:p><xhtml:br xmlns:xhtml="http://www.w3.org/1999/xhtml" /><xhtml:p xmlns:xhtml="http://www.w3.org/1999/xhtml" style="font-size: 14px; font-weight:bold"><xhtml:a name="Struct">Struct:</xhtml:a></xhtml:p><svg xmlns="http://www.w3.org/2000/svg" width="501" height="103">
          <defs>
             <style type="text/css">
     @namespace "http://www.w3.org/2000/svg";
@@ -1947,18 +1947,26 @@
     polygon.regexp        {fill: #FFF4C7; stroke: #332900; stroke-width: 1;}
   </style>
          </defs>
-         <polygon points="9 17 1 13 1 21"></polygon>
-         <polygon points="17 17 9 13 9 21"></polygon>
-         <rect x="31" y="3" width="58" height="32" rx="10"></rect>
-         <rect x="29" y="1" width="58" height="32" class="terminal" rx="10"></rect>
-         <text class="terminal" x="39" y="21">struct</text><a xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#Expression" xlink:title="Expression">
-            <rect x="109" y="3" width="90" height="32"></rect>
-            <rect x="107" y="1" width="90" height="32" class="nonterminal"></rect>
-            <text class="nonterminal" x="117" y="21">Expression</text></a><svg:path xmlns:svg="http://www.w3.org/2000/svg" class="line" d="m17 17 h2 m0 0 h10 m58 0 h10 m0 0 h10 m90 0 h10 m3 0 h-3"></svg:path>
-         <polygon points="217 17 225 13 225 21"></polygon>
-         <polygon points="217 17 209 13 209 21"></polygon></svg><xhtml:p xmlns:xhtml="http://www.w3.org/1999/xhtml">
+         <polygon points="9 51 1 47 1 55"></polygon>
+         <polygon points="17 51 9 47 9 55"></polygon>
+         <rect x="31" y="37" width="58" height="32" rx="10"></rect>
+         <rect x="29" y="35" width="58" height="32" class="terminal" rx="10"></rect>
+         <text class="terminal" x="39" y="55">struct</text><a xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#Identifier" xlink:title="Identifier">
+            <rect x="129" y="69" width="78" height="32"></rect>
+            <rect x="127" y="67" width="78" height="32" class="nonterminal"></rect>
+            <text class="nonterminal" x="137" y="87">Identifier</text></a><rect x="247" y="37" width="28" height="32" rx="10"></rect>
+         <rect x="245" y="35" width="28" height="32" class="terminal" rx="10"></rect>
+         <text class="terminal" x="255" y="55">{</text><a xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#Expression" xlink:title="Expression">
+            <rect x="315" y="3" width="90" height="32"></rect>
+            <rect x="313" y="1" width="90" height="32" class="nonterminal"></rect>
+            <text class="nonterminal" x="323" y="21">Expression</text></a><rect x="445" y="37" width="28" height="32" rx="10"></rect>
+         <rect x="443" y="35" width="28" height="32" class="terminal" rx="10"></rect>
+         <text class="terminal" x="453" y="55">}</text>
+         <svg:path xmlns:svg="http://www.w3.org/2000/svg" class="line" d="m17 51 h2 m0 0 h10 m58 0 h10 m20 0 h10 m0 0 h88 m-118 0 h20 m98 0 h20 m-138 0 q10 0 10 10 m118 0 q0 -10 10 -10 m-128 10 v12 m118 0 v-12 m-118 12 q0 10 10 10 m98 0 q10 0 10 -10 m-108 10 h10 m78 0 h10 m20 -32 h10 m28 0 h10 m20 0 h10 m0 0 h100 m-130 0 l20 0 m-1 0 q-9 0 -9 -10 l0 -14 q0 -10 10 -10 m110 34 l20 0 m-20 0 q10 0 10 -10 l0 -14 q0 -10 -10 -10 m-110 0 h10 m90 0 h10 m20 34 h10 m28 0 h10 m3 0 h-3"></svg:path>
+         <polygon points="491 51 499 47 499 55"></polygon>
+         <polygon points="491 51 483 47 483 55"></polygon></svg><xhtml:p xmlns:xhtml="http://www.w3.org/1999/xhtml">
          <xhtml:div class="ebnf"><xhtml:code>
-               <div><a href="#Struct" title="Struct">Struct</a>   ::= 'struct' <a href="#Expression" title="Expression">Expression</a></div></xhtml:code></xhtml:div>
+               <div><a href="#Struct" title="Struct">Struct</a>   ::= 'struct' <a href="#Identifier" title="Identifier">Identifier</a>? '{' <a href="#Expression" title="Expression">Expression</a>* '}'</div></xhtml:code></xhtml:div>
       </xhtml:p>
       <xhtml:p xmlns:xhtml="http://www.w3.org/1999/xhtml">referenced by:
          <xhtml:ul>
@@ -3523,6 +3531,7 @@
             <xhtml:li><xhtml:a href="#IfndefDirective" title="IfndefDirective">IfndefDirective</xhtml:a></xhtml:li>
             <xhtml:li><xhtml:a href="#Key" title="Key">Key</xhtml:a></xhtml:li>
             <xhtml:li><xhtml:a href="#Member" title="Member">Member</xhtml:a></xhtml:li>
+            <xhtml:li><xhtml:a href="#Struct" title="Struct">Struct</xhtml:a></xhtml:li>
             <xhtml:li><xhtml:a href="#Typedef" title="Typedef">Typedef</xhtml:a></xhtml:li>
             <xhtml:li><xhtml:a href="#UndefDirective" title="UndefDirective">UndefDirective</xhtml:a></xhtml:li>
          </xhtml:ul>

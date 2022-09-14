@@ -69,7 +69,7 @@ Case                     ::= 'case' Expression ':' Expression*
 Default                  ::= 'default' ':' Expression*
 Enum                     ::= 'enum' Array
 Typedef                  ::= 'typedef' Expression Identifier
-Struct                   ::= 'struct' Expression
+Struct                   ::= 'struct' Identifier? '{' Expression* '}'
 Union                    ::= 'union' '{' Expression* '}'
 FunctionDeclaration      ::= Type Identifier '(' Arguments ')' Block
 VariableDeclaration      ::= Qualifier* Type ('*')* Expression
@@ -139,7 +139,7 @@ IncludeDirective         ::= '#include' String
                            | '#include' '<' Expression '>'
                            
 WhiteSpace               ::= WhiteSpace^token
-                          /* ws: definition */
+                         /* ws: definition */
 
 <?TOKENS?>
 
