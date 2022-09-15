@@ -1,21 +1,23 @@
-typedef struct {
+struct {
     int a;
     float b;
-    union {
+    union x {
         long c;
         double d;
-    }
-} e;
+    } y;
+} e, f;
 
-struct {
-    int f;
-    int g;
-} h;
+typedef int bool;
 
-struct i {
-    int j;
+struct g {
+    int h;
+    int i;
+} j;
+
+typedef struct {
     int k;
-};
+    int l;
+} n;
 
 printf("%d\n", e.a);
 printf("%f\n", e.b);

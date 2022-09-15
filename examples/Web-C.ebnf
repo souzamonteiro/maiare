@@ -73,12 +73,12 @@ Else                     ::= 'else' Expression
 Switch                   ::= 'switch' '(' Expression ')' '{' Case+ Default? '}'
 Case                     ::= 'case' Expression ':' Expression*
 Default                  ::= 'default' ':' Expression*
-Enum                     ::= 'enum' Array
-Typedef                  ::= 'typedef' Expression Identifier
-Struct                   ::= 'struct' Identifier? '{' Expression* '}'
-Union                    ::= 'union' '{' Expression* '}'
+Typedef                  ::= 'typedef' (Enum | Struct | Type | Union) (Identifier (',' Identifier)*)?
+Enum                     ::= 'enum' Identifier? Block (Identifier (',' Identifier)*)?
+Struct                   ::= 'struct' Identifier? Block (Identifier (',' Identifier)*)?
+Union                    ::= 'union' Identifier? Block (Identifier (',' Identifier)*)?
 FunctionDeclaration      ::= Qualifier* Type Identifier '(' Arguments ')' Block
-VariableDeclaration      ::= Qualifier* Type ('*')* Expression
+VariableDeclaration      ::= Qualifier* Type Expression
 Return                   ::= 'return' Expression
 EmptyStatement           ::= ';'
 
@@ -104,8 +104,9 @@ Qualifier                ::= 'auto'
                            | '_Noreturn'
                            | '_Static_assert'
                            | '_Thread_local'
-                           
-Type                     ::= 'char'
+
+Type                     ::= DataType ('*')*
+DataType                 ::= 'char'
                            | 'double'
                            | 'float'
                            | 'int'
