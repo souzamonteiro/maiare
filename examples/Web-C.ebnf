@@ -41,11 +41,14 @@ Primary                  ::= Member
                            | Value
                            | ParenthesizedExpression
 
-Statement                ::= Do
+Statement                ::= Assembly
+                           | Do
                            | While
                            | For
                            | Break
                            | Continue
+                           | Goto
+                           | Subroutine
                            | If
                            | Switch
                            | Enum
@@ -57,11 +60,14 @@ Statement                ::= Do
                            | Return
                            | EmptyStatement
                            
+Assembly                 ::= 'asm' Qualifier* '(' String ')'
 Do                       ::= 'do' Expression 'while' '(' Expression ')'
 While                    ::= 'while' '(' Expression ')' Expression
 For                      ::= 'for' '(' Expression ';' Expression ';' Expression ')' Expression
 Break                    ::= 'break'
 Continue                 ::= 'continue'
+Goto                     ::= 'goto' Identifier
+Subroutine               ::= ':'
 If                       ::= 'if' '(' Expression ')' Expression Else?
 Else                     ::= 'else' Expression
 Switch                   ::= 'switch' '(' Expression ')' '{' Case+ Default? '}'
@@ -71,7 +77,7 @@ Enum                     ::= 'enum' Array
 Typedef                  ::= 'typedef' Expression Identifier
 Struct                   ::= 'struct' Identifier? '{' Expression* '}'
 Union                    ::= 'union' '{' Expression* '}'
-FunctionDeclaration      ::= Type Identifier '(' Arguments ')' Block
+FunctionDeclaration      ::= Qualifier* Type Identifier '(' Arguments ')' Block
 VariableDeclaration      ::= Qualifier* Type ('*')* Expression
 Return                   ::= 'return' Expression
 EmptyStatement           ::= ';'
@@ -79,12 +85,25 @@ EmptyStatement           ::= ';'
 Qualifier                ::= 'auto'
                            | 'const'
                            | 'extern'
+                           | 'inline'
                            | 'long'
+                           | 'register'
+                           | 'restrict'
                            | 'short'
                            | 'signed'
                            | 'static'
                            | 'unsigned'
                            | 'volatile'
+                           | '_Alignas'
+                           | '_Alignof'
+                           | '_Atomic'
+                           | '_Bool'
+                           | '_Complex'
+                           | '_Generic'
+                           | '_Imaginary'
+                           | '_Noreturn'
+                           | '_Static_assert'
+                           | '_Thread_local'
                            
 Type                     ::= 'char'
                            | 'double'
@@ -93,6 +112,8 @@ Type                     ::= 'char'
                            | 'long'
                            | 'short'
                            | 'void'
+                           | '_Bool'
+                           | '_Complex'
                            
 Arguments                ::= Expression (',' Expression)*
 
@@ -122,12 +143,16 @@ Value                    ::= Array
 
 PreprocessorDirective    ::= DefineDirective
                            | UndefDirective
+                           | ErrorDirective
                            | IfDirectiveStatement
                            | IncludeDirective
+                           | LineDirective
+                           | PragmaDirective
                            
 DefineDirective          ::= '#define' Identifier Expression
                            | '#define' Identifier '(' Arguments? ')' Expression
 UndefDirective           ::= '#undef' Identifier
+ErrorDirective           ::= '#error' String
 IfDirectiveStatement     ::= (IfDirective | IfdefDirective | IfndefDirective) ElifDirective* ElseDirective? EndifDirective
 IfDirective              ::= '#if' Expression*
 IfdefDirective           ::= '#ifdef' Identifier Expression*
@@ -137,7 +162,9 @@ ElseDirective            ::= '#else' Expression*
 EndifDirective           ::= '#endif'
 IncludeDirective         ::= '#include' String
                            | '#include' '<' Expression '>'
-                           
+LineDirective            ::= '#line' Number String?
+PragmaDirective          ::= '#pragma' Expression*
+                         
 WhiteSpace               ::= WhiteSpace^token
                          /* ws: definition */
 
@@ -147,7 +174,8 @@ EOF                      ::= $
 
 Identifier               ::= (FirstIdentifierChar (IdentifierChar)*) - ReservedWord
 
-ReservedWord             ::= 'auto'
+ReservedWord             ::= 'asm'
+                           | 'auto'
                            | 'break'
                            | 'case'
                            | 'char'
@@ -162,10 +190,14 @@ ReservedWord             ::= 'auto'
                            | 'false'
                            | 'float'
                            | 'for'
+                           | 'goto'
                            | 'if'
+                           | 'inline'
                            | 'int'
                            | 'long'
                            | 'null'
+                           | 'register'
+                           | 'restrict'
                            | 'return'
                            | 'short'
                            | 'signed'
@@ -180,6 +212,16 @@ ReservedWord             ::= 'auto'
                            | 'void'
                            | 'volatile'
                            | 'while'
+                           | '_Alignas'
+                           | '_Alignof'
+                           | '_Atomic'
+                           | '_Bool'
+                           | '_Complex'
+                           | '_Generic'
+                           | '_Imaginary'
+                           | '_Noreturn'
+                           | '_Static_assert'
+                           | '_Thread_local'
 
 Null                     ::= 'null'
 True                     ::= 'true'
