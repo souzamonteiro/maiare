@@ -19,6 +19,10 @@ typedef struct {
     int l;
 } n;
 
+n o;
+
+n p = (n *) o;
+
 printf("%d\n", e.a);
 printf("%f\n", e.b);
 printf("%ld\n", e.c);

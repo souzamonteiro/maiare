@@ -24,7 +24,8 @@ ShiftExpression          ::= AdditiveExpression (('<<' | '>>') AdditiveExpressio
 AdditiveExpression       ::= MultiplicativeExpression (('+' | '-') MultiplicativeExpression)*
 MultiplicativeExpression ::= PowerExpression (('*' | '/' | '%') PowerExpression)*
 PowerExpression          ::= UnaryExpression ('^' UnaryExpression)*
-UnaryExpression          ::= 'sizeof' Primary
+UnaryExpression          ::= Cast
+                           | 'sizeof' Primary
                            | '++' Primary
                            | '--' Primary
                            | '+' Primary
@@ -32,11 +33,13 @@ UnaryExpression          ::= 'sizeof' Primary
                            | '~' Primary
                            | '!' Primary
                            | '&' Primary
-                           | '*' Primary
+                           | ('*')+ Primary
                            | Primary '++'
                            | Primary '--'
                            | Primary
-                           
+
+Cast                     ::= '(' Type ')' Primary
+
 Primary                  ::= Member
                            | Value
                            | ParenthesizedExpression
@@ -106,6 +109,7 @@ Qualifier                ::= 'auto'
                            | '_Thread_local'
 
 Type                     ::= DataType ('*')*
+                           | Identifier ('*')*
 DataType                 ::= 'char'
                            | 'double'
                            | 'float'
@@ -133,13 +137,14 @@ Column                   ::= Expression
 
 ParenthesizedExpression  ::= '(' Expression ')'
 
-Value                    ::= Array
+Value                    ::= Integer
+                           | Real
                            | Character
-                           | False
+                           | String
+                           | Array
                            | Matrix
                            | Null
-                           | Number
-                           | String
+                           | False
                            | True
 
 PreprocessorDirective    ::= DefineDirective
@@ -149,6 +154,7 @@ PreprocessorDirective    ::= DefineDirective
                            | IncludeDirective
                            | LineDirective
                            | PragmaDirective
+                           | EmptyDirective
                            
 DefineDirective          ::= '#define' Identifier Expression
                            | '#define' Identifier '(' Arguments? ')' Expression
@@ -163,9 +169,10 @@ ElseDirective            ::= '#else' Expression*
 EndifDirective           ::= '#endif'
 IncludeDirective         ::= '#include' String
                            | '#include' '<' Expression '>'
-LineDirective            ::= '#line' Number String?
+LineDirective            ::= '#line' Integer String?
 PragmaDirective          ::= '#pragma' Expression*
-                         
+EmptyDirective           ::= '#'
+
 WhiteSpace               ::= WhiteSpace^token
                          /* ws: definition */
 
@@ -249,10 +256,8 @@ EscapeSequence           ::= BackSlash 'b'
                            | BackSlash BackSlash
                            | OctalEscape
                            | HexEscapeSequence
-OctalEscape              ::= '\' OctalDigit
-                           | '\' OctalDigit OctalDigit
-                           | '\' ZeroToThree OctalDigit OctalDigit
-HexEscapeSequence        ::= '\x' HexDigit HexDigit
+OctalEscape              ::= '\' OctalDigit+
+HexEscapeSequence        ::= '\x' HexDigit+
 OctalDigit               ::= '0'
                            | '1'
                            | '2'
@@ -261,10 +266,6 @@ OctalDigit               ::= '0'
                            | '5'
                            | '6'
                            | '7'
-ZeroToThree              ::= '0'
-                           | '1'
-                           | '2'
-                           | '3'
 HexDigit                 ::= [0-9a-fA-F]
 BackSlash                ::= '\' ( UnicodeMarker '005' [cC] )?
 InputCharacter           ::= UnicodeInputCharacter - ( CR | LF )
@@ -272,13 +273,20 @@ InputCharacter           ::= UnicodeInputCharacter - ( CR | LF )
 UnicodeInputCharacter    ::= UnicodeEscape
                            | RawInputCharacter
 UnicodeEscape            ::= '\' UnicodeMarker HexDigit HexDigit HexDigit HexDigit
-UnicodeMarker            ::= 'u'+
+UnicodeMarker            ::= 'u' | 'U'
 RawInputCharacter        ::= [#x0001-#xD7FF]
                            | [#xE000-#xFFFD]
                            | [#x10000-#x10FFFF]
 
-Number                   ::= '-'? Digit+ ('.' Digit+)? (('e' | 'E') ('+' | '-')? Digit+)?
+Integer                  ::= '0'
+                           | Digit+ ('u' | 'U')? ('l' | 'll' | 'L' | 'LL' | 'f' | 'F')?
+                           | Octal
+                           | Hexadecimal
+Real                     ::= '-'? Digit+ '.' Digit+ (('e' | 'E' | 'p' | 'P') ('+' | '-')? Digit+)?
+
 Digit                    ::= [0-9]
+Octal                    ::= '0' OctalDigit+
+Hexadecimal              ::= '0x' HexDigit+
 
 Comment                  ::= SingleLineComment
 

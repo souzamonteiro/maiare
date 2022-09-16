@@ -4,8 +4,8 @@ rm -rf build/*
 rm -rf docs/*
 
 # Creates uncompressed versions of the library.
-cat src/Shebang.js src/REx.js src/MaiaRECompiler.js src/MaiaREApp.js > build/maiare.js
-cat src/REx.js src/MaiaRECompiler.js > build/libmaiare.js
+cat src/Shebang.js src/EBNF.js src/MaiaRECompiler.js src/MaiaREApp.js > build/maiare.js
+cat src/EBNF.js src/MaiaRECompiler.js > build/libmaiare.js
 
 cp build/maiare.js bin/
 cp build/maiare.js js/
