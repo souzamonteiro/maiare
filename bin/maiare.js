@@ -1,8 +1,8 @@
 #!/usr/bin/env node
-// This file was generated on Sat Sep 10, 2022 11:56 (UTC-03) by REx v5.55 which is Copyright (c) 1979-2022 by Gunther Rademacher <grd@gmx.net>
-// REx command line: REx.ebnf -tree -javascript -main
+// This file was generated on Fri Sep 16, 2022 10:58 (UTC) by REx v5.55 which is Copyright (c) 1979-2022 by Gunther Rademacher <grd@gmx.net>
+// REx command line: EBNF.ebnf -backtrack -javascript -tree -main
 
-function REx(string, parsingEventHandler)
+function EBNF(string, parsingEventHandler)
 {
   init(string, parsingEventHandler);
 
@@ -72,7 +72,7 @@ function REx(string, parsingEventHandler)
   this.getOffendingToken = function(e)
   {
     var o = e.getOffending();
-    return o >= 0 ? REx.TOKEN[o] : null;
+    return o >= 0 ? EBNF.TOKEN[o] : null;
   };
 
   this.getExpectedTokenSet = function(e)
@@ -80,11 +80,11 @@ function REx(string, parsingEventHandler)
     var expected;
     if (e.getExpected() < 0)
     {
-      expected = REx.getTokenSet(- e.getState());
+      expected = EBNF.getTokenSet(- e.getState());
     }
     else
     {
-      expected = [REx.TOKEN[e.getExpected()]];
+      expected = [EBNF.TOKEN[e.getExpected()]];
     }
     return expected;
   };
@@ -1048,7 +1048,7 @@ function REx(string, parsingEventHandler)
     if (l1 == t)
     {
       whitespace();
-      eventHandler.terminal(REx.TOKEN[l1], b1, e1);
+      eventHandler.terminal(EBNF.TOKEN[l1], b1, e1);
       b0 = b1; e0 = e1; l1 = l2; if (l1 != 0) {
       b1 = b2; e1 = e2; l2 = l3; if (l2 != 0) {
       b2 = b3; e2 = e3; l3 = 0; }}
@@ -1146,7 +1146,7 @@ function REx(string, parsingEventHandler)
     var nonbmp = false;
     begin = end;
     var current = end;
-    var result = REx.INITIAL[tokenSetId];
+    var result = EBNF.INITIAL[tokenSetId];
     var state = 0;
 
     for (var code = result & 255; code != 0; )
@@ -1156,12 +1156,12 @@ function REx(string, parsingEventHandler)
       ++current;
       if (c0 < 0x80)
       {
-        charclass = REx.MAP0[c0];
+        charclass = EBNF.MAP0[c0];
       }
       else if (c0 < 0xd800)
       {
         var c1 = c0 >> 3;
-        charclass = REx.MAP1[(c0 & 7) + REx.MAP1[(c1 & 31) + REx.MAP1[c1 >> 5]]];
+        charclass = EBNF.MAP1[(c0 & 7) + EBNF.MAP1[(c1 & 31) + EBNF.MAP1[c1 >> 5]]];
       }
       else
       {
@@ -1179,16 +1179,16 @@ function REx(string, parsingEventHandler)
         var lo = 0, hi = 1;
         for (var m = 1; ; m = (hi + lo) >> 1)
         {
-          if (REx.MAP2[m] > c0) hi = m - 1;
-          else if (REx.MAP2[2 + m] < c0) lo = m + 1;
-          else {charclass = REx.MAP2[4 + m]; break;}
+          if (EBNF.MAP2[m] > c0) hi = m - 1;
+          else if (EBNF.MAP2[2 + m] < c0) lo = m + 1;
+          else {charclass = EBNF.MAP2[4 + m]; break;}
           if (lo > hi) {charclass = 0; break;}
         }
       }
 
       state = code;
       var i0 = (charclass << 8) + code - 1;
-      code = REx.TRANSITION[(i0 & 7) + REx.TRANSITION[i0 >> 3]];
+      code = EBNF.TRANSITION[(i0 & 7) + EBNF.TRANSITION[i0 >> 3]];
 
       if (code > 255)
       {
@@ -1246,7 +1246,7 @@ function REx(string, parsingEventHandler)
 
 }
 
-REx.XmlSerializer = function(log, indent)
+EBNF.XmlSerializer = function(log, indent)
 {
   var input = null;
   var delayedTag = null;
@@ -1345,27 +1345,27 @@ REx.XmlSerializer = function(log, indent)
   }
 };
 
-REx.getTokenSet = function(tokenSetId)
+EBNF.getTokenSet = function(tokenSetId)
 {
   var set = [];
-  var s = tokenSetId < 0 ? - tokenSetId : REx.INITIAL[tokenSetId] & 255;
+  var s = tokenSetId < 0 ? - tokenSetId : EBNF.INITIAL[tokenSetId] & 255;
   for (var i = 0; i < 42; i += 32)
   {
     var j = i;
     var i0 = (i >> 5) * 177 + s - 1;
-    var f = REx.EXPECTED[(i0 & 3) + REx.EXPECTED[i0 >> 2]];
+    var f = EBNF.EXPECTED[(i0 & 3) + EBNF.EXPECTED[i0 >> 2]];
     for ( ; f != 0; f >>>= 1, ++j)
     {
       if ((f & 1) != 0)
       {
-        set.push(REx.TOKEN[j]);
+        set.push(EBNF.TOKEN[j]);
       }
     }
   }
   return set;
 };
 
-REx.TopDownTreeBuilder = function()
+EBNF.TopDownTreeBuilder = function()
 {
   var input = null;
   var stack = null;
@@ -1378,7 +1378,7 @@ REx.TopDownTreeBuilder = function()
 
   this.startNonterminal = function(name, begin)
   {
-    var nonterminal = new REx.Nonterminal(name, begin, begin, []);
+    var nonterminal = new EBNF.Nonterminal(name, begin, begin, []);
     if (stack.length > 0) addChild(nonterminal);
     stack.push(nonterminal);
   };
@@ -1391,7 +1391,7 @@ REx.TopDownTreeBuilder = function()
 
   this.terminal = function(name, begin, end)
   {
-    addChild(new REx.Terminal(name, begin, end));
+    addChild(new EBNF.Terminal(name, begin, end));
   };
 
   this.whitespace = function(begin, end)
@@ -1411,7 +1411,7 @@ REx.TopDownTreeBuilder = function()
   };
 };
 
-REx.Terminal = function(name, begin, end)
+EBNF.Terminal = function(name, begin, end)
 {
   this.begin = begin;
   this.end = end;
@@ -1422,7 +1422,7 @@ REx.Terminal = function(name, begin, end)
   };
 };
 
-REx.Nonterminal = function(name, begin, end, children)
+EBNF.Nonterminal = function(name, begin, end, children)
 {
   this.begin = begin;
   this.end = end;
@@ -1445,7 +1445,7 @@ REx.Nonterminal = function(name, begin, end, children)
   };
 };
 
-REx.MAP0 =
+EBNF.MAP0 =
 [
   /*   0 */ 52, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 4, 5, 6,
   /*  36 */ 7, 4, 8, 9, 10, 11, 12, 13, 4, 14, 15, 16, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 18, 4, 19, 20, 21, 22, 4,
@@ -1454,7 +1454,7 @@ REx.MAP0 =
   /* 119 */ 48, 49, 26, 26, 4, 50, 4, 4, 4
 ];
 
-REx.MAP1 =
+EBNF.MAP1 =
 [
   /*    0 */ 216, 291, 323, 383, 415, 908, 351, 815, 815, 447, 479, 511, 543, 575, 621, 882, 589, 681, 815, 815, 815,
   /*   21 */ 815, 815, 815, 815, 815, 815, 815, 815, 815, 713, 745, 821, 649, 815, 815, 815, 815, 815, 815, 815, 815,
@@ -1526,18 +1526,18 @@ REx.MAP1 =
   /* 1428 */ 26, 4, 4, 4, 26, 4, 4, 4, 4, 4, 4, 4, 51, 51, 4, 26, 26, 26, 4, 51, 51, 51, 4, 26, 26, 26
 ];
 
-REx.MAP2 =
+EBNF.MAP2 =
 [
   /* 0 */ 57344, 65536, 65533, 1114111, 4, 4
 ];
 
-REx.INITIAL =
+EBNF.INITIAL =
 [
   /*  0 */ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29,
   /* 29 */ 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52
 ];
 
-REx.TRANSITION =
+EBNF.TRANSITION =
 [
   /*    0 */ 1729, 1729, 1729, 1729, 1729, 1729, 1729, 1729, 1729, 1729, 1729, 1729, 1729, 1729, 1729, 1729, 1729, 1729,
   /*   18 */ 1729, 1729, 1729, 1729, 1729, 1729, 1729, 1729, 1729, 1729, 1729, 1729, 1729, 1729, 3275, 1696, 1706, 1698,
@@ -1705,7 +1705,7 @@ REx.TRANSITION =
   /* 3465 */ 3072, 3072, 3072, 3072, 0, 0, 0, 0
 ];
 
-REx.EXPECTED =
+EBNF.EXPECTED =
 [
   /*   0 */ 89, 99, 156, 96, 103, 110, 114, 118, 122, 126, 130, 134, 138, 142, 150, 160, 164, 167, 106, 179, 187, 203,
   /*  22 */ 167, 191, 200, 144, 207, 215, 146, 213, 216, 144, 211, 215, 145, 212, 221, 217, 225, 223, 214, 221, 225,
@@ -1724,7 +1724,7 @@ REx.EXPECTED =
   /* 242 */ 524, 0, 512, 512, 524, 513, 525, 525, 525, 541, 541, 0, 2, 0, 2, 256, 0, 4, 0, 512, 0, 64, 0, 0, 256, 0
 ];
 
-REx.TOKEN =
+EBNF.TOKEN =
 [
   "(0)",
   "Whitespace",
@@ -1985,8 +1985,8 @@ function MaiaREApp() {
                                         function getXml(data) {
                                             compiledCode.xml += data;
                                         }
-                                        var s = new REx.XmlSerializer(getXml, true);
-                                        var languageParser = new REx(code, s);
+                                        var s = new EBNF.XmlSerializer(getXml, true);
+                                        var languageParser = new EBNF(code, s);
                                         try {
                                             languageParser.parse_Grammar();
                                         } catch (pe) {
@@ -2104,7 +2104,7 @@ function MaiaREApp() {
                         outputFileType = 'xml';
                     } else if ((argv[i] == '-h') || (argv[i] == '--help')) {
                         console.log('MaiaRE Command Line Interface (CLI)');
-                        console.log('Usage: MaiaRE [options] [script.maia] [--] [arguments]');
+                        console.log('Usage: maiare [options] [script.maia] [--] [arguments]');
                         console.log('Options:');
                         console.log('-c                          Just compile to JS, don\'t run the script;');
                         console.log('-m                          Just compile to MIL, don\'t run the script;');
@@ -2128,8 +2128,8 @@ function MaiaREApp() {
 
                 if (typeof inputFile != 'undefined') {
                     var code = read(String(inputFile));
-                    var s = new REx.XmlSerializer(getXml, false);
-                    var languageParser = new REx(code, s);
+                    var s = new EBNF.XmlSerializer(getXml, false);
+                    var languageParser = new EBNF(code, s);
                     try {
                         languageParser.parse_Grammar();
                     } catch (pe) {
@@ -2182,7 +2182,7 @@ function MaiaREApp() {
                     }
                 } else {
                     console.log('MaiaRE Command Line Interface (CLI)');
-                    console.log('Usage: MaiaRE [options] [script.maia] [--] [arguments]');
+                    console.log('Usage: maiare [options] [script.maia] [--] [arguments]');
                 }
             } else {
                 var options = {

@@ -16,4 +16,4 @@ chmod 755 bin/*
 jsdoc -d ./docs ./package.json ./src
 
 mkdir docs/grammar
-cp -r grammar/REx.xhtml docs/grammar
+cp -r grammar/EBNF.xhtml docs/grammar

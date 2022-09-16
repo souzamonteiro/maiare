@@ -70,8 +70,8 @@ function MaiaREApp() {
                                         function getXml(data) {
                                             compiledCode.xml += data;
                                         }
-                                        var s = new REx.XmlSerializer(getXml, true);
-                                        var languageParser = new REx(code, s);
+                                        var s = new EBNF.XmlSerializer(getXml, true);
+                                        var languageParser = new EBNF(code, s);
                                         try {
                                             languageParser.parse_Grammar();
                                         } catch (pe) {
@@ -189,7 +189,7 @@ function MaiaREApp() {
                         outputFileType = 'xml';
                     } else if ((argv[i] == '-h') || (argv[i] == '--help')) {
                         console.log('MaiaRE Command Line Interface (CLI)');
-                        console.log('Usage: MaiaRE [options] [script.maia] [--] [arguments]');
+                        console.log('Usage: maiare [options] [script.maia] [--] [arguments]');
                         console.log('Options:');
                         console.log('-c                          Just compile to JS, don\'t run the script;');
                         console.log('-m                          Just compile to MIL, don\'t run the script;');
@@ -213,8 +213,8 @@ function MaiaREApp() {
 
                 if (typeof inputFile != 'undefined') {
                     var code = read(String(inputFile));
-                    var s = new REx.XmlSerializer(getXml, false);
-                    var languageParser = new REx(code, s);
+                    var s = new EBNF.XmlSerializer(getXml, false);
+                    var languageParser = new EBNF(code, s);
                     try {
                         languageParser.parse_Grammar();
                     } catch (pe) {
@@ -267,7 +267,7 @@ function MaiaREApp() {
                     }
                 } else {
                     console.log('MaiaRE Command Line Interface (CLI)');
-                    console.log('Usage: MaiaRE [options] [script.maia] [--] [arguments]');
+                    console.log('Usage: maiare [options] [script.maia] [--] [arguments]');
                 }
             } else {
                 var options = {
